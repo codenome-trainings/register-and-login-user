@@ -42,3 +42,9 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.register input[type="password"],
+.register input[type="email"],
+.register input[type="text"] {
+  border-radius: 5px !important;
+}

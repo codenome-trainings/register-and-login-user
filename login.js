@@ -13,25 +13,36 @@ class User {
     }
 
     login(user) {
-
         const foundUser = this.users.filter( registeredUser => 
             registeredUser.username === user.username && registeredUser.password === user.password
-        )[0]
-        
+        )[0]  
         if (foundUser) {
             return {
                 message: 'Login is successful',
                 status: true
             }
         }
-
         return {
             message: 'Invalid username or password',
             status: false
         }
-
     }
 
+    addUser(user) {
+        const foundUser = this.users.filter(registeredUser => registeredUser.username === user.username)[0];
+        if (foundUser) {
+            return {
+                message: 'This User exist',
+                status: false
+            }
+        } else {
+            this.users.push(user)
+            return {
+                message: 'User registred with successful',
+                status: true
+            }
+        }
+    }
 }
 
 function signin() {
@@ -51,4 +62,30 @@ function signin() {
         message.innerText = result.message.toString()
     }
     
+}
+
+function signup() {
+    let username = document.getElementById('inputUsername').value
+    let confirmPassword = document.getElementById('confirmPassword').value
+    let password = document.getElementById('inputPassword').value
+    let message = document.getElementById('message')
+
+    const equalPassword = ( password, confirmPassword ) => password === confirmPassword
+
+    if (!equalPassword(password, confirmPassword)) {
+        message.innerText = 'Your password is not the same'
+        message.setAttribute('class', 'alert alert-danger')
+        return
+    }
+
+    let user = new User (username, password)
+    let result = user.addUser(user)
+
+    if (result.status) {
+        message.innerText = result.message.toString()
+        message.setAttribute('class', 'alert alert-success')
+    } else {
+        message.innerText = result.message.toString()
+        message.setAttribute('class', 'alert alert-danger')
+    }
 }
